@@ -1,3 +1,5 @@
+var tile_width = 101;
+var tile_height = 83;
 // Enemies our player must avoid
 var Enemy = function() {
     // Variables applied to each of our instances go here,
@@ -9,13 +11,12 @@ var Enemy = function() {
     // Use Math.random() to randomly generate 0, 1 or 2. 
     // This is used to randomly place enemies on the first, second or third level of the 'street'
     // Since blocks are 83px high, we choose between the three enemy 'levels' with 50 + 83 * (random number)
-    var randomY = 50 + 83 * Math.floor(Math.random() * 3);
+    var randomY = 50 + tile_height * Math.floor(Math.random() * 3);
     this.y = randomY;
     // Speed is randomly generated between 100 and 400.
     var speed = Math.floor(Math.random() * 300 + 100);
     this.speed = speed;
 };
-
 // Update the enemy's position, required method for game
 // Parameter: dt, a time delta between ticks
 Enemy.prototype.update = function(dt) {
@@ -41,7 +42,7 @@ Enemy.prototype.reset = function() {
         // Starts all the way from the left again
         this.x = -15;
        // Starts in any one of the three levels of the street randomly
-        var randomY = 50 + 83 * Math.floor(Math.random() * 3);
+        var randomY = 50 + tile_height * Math.floor(Math.random() * 3);
         this.y = randomY;
        // Sets a random speed between 100 and 400
         var speed = Math.floor(Math.random() * 300 + 100);
@@ -72,8 +73,8 @@ var Player = function() {
     // I have chosen the char-pink-girl sprite as my player
     this.sprite = 'images/char-pink-girl.png';
     //This is the starting point for the player
-    this.x = 202;
-    this.y = 50 + 4 * 83;
+    this.x = 2 * tile_width;
+    this.y = 50 + 4 * tile_height;
 };
 // Draws the player on the screen
 Player.prototype.render = function() {
@@ -81,8 +82,8 @@ Player.prototype.render = function() {
 };
 // Resets the player to the=] usual starting position
 Player.prototype.reset = function() {
-    this.x = 202;
-    this.y = 50 + 4 * 83;
+    this.x = 2 * tile_width;
+    this.y = 50 + 4 * tile_height;
 };
 Player.prototype.handleInput = function(allowedKeys) {
     /* Moves player around within the game screen.*/
@@ -116,8 +117,8 @@ Scoreboard.prototype.render = function() {
 var Gem = function() {
     /* Use Math.random() to randomly generate X and Y values that are in any
      of the 'street' blocks. */
-    var randomX = 101 * Math.floor(Math.random() * 4);
-    var randomY = 50 + 83 * Math.floor(Math.random() * 3);
+    var randomX = tile_width * Math.floor(Math.random() * 4);
+    var randomY = 50 + tile_height * Math.floor(Math.random() * 3);
     this.x = randomX;
     this.y = randomY;
 
@@ -171,7 +172,7 @@ Gem.prototype.collisionCheck = function() {
         } else if (this.color == 'orange') {
             scoreboard.score += 300;
         }
-        gem.reset();
+        this.reset();
     }
 };
 
@@ -179,8 +180,8 @@ Gem.prototype.collisionCheck = function() {
 Gem.prototype.reset = function() {
     /* Use Math.random() to randomly generate X and Y values that are in any
      of the 'street' blocks. */
-    var randomX = 101 * Math.floor(Math.random() * 4);
-    var randomY = 50 + 83 * Math.floor(Math.random() * 3);
+    var randomX = tile_width * Math.floor(Math.random() * 4);
+    var randomY = 50 + tile_height * Math.floor(Math.random() * 3);
     this.x = randomX;
     this.y = randomY;
     /* Extra gems are not visible all the time. Initially, the gem will be invisible */
